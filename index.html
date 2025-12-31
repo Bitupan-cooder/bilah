@@ -19,10 +19,12 @@
             font-family: 'Segoe UI', sans-serif;
         }
 
-        /* Timer Styling */
+        /* Removed Timer Styling - Keeping just for context if desired */
         #timer-container {
             text-align: center;
             margin-bottom: 20px;
+            /* Hiding the timer display */
+            display: none; 
         }
 
         #timer {
@@ -33,15 +35,15 @@
         }
 
         .status-msg {
-            color: #555;
+            color: #ccc; /* Updated color for visibility */
             text-transform: uppercase;
             letter-spacing: 3px;
             margin-top: 10px;
         }
 
-        /* Video Container - Hidden by default */
+        /* Video Container - Now visible by default */
         .video-container {
-            display: none; /* Secretly hidden */
+            display: block; /* Changed from 'none' to 'block' */
             position: relative;
             width: 90%;
             max-width: 1000px;
@@ -56,26 +58,17 @@
             display: block;
         }
 
-        /* Locked State Placeholder */
+        /* Locked State Placeholder - Hiding this */
         #lock-screen {
-            width: 90%;
-            max-width: 1000px;
-            height: 400px;
-            border: 2px dashed #222;
-            border-radius: 12px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #333;
-            font-size: 50px;
+            display: none; /* Changed from 'flex' to 'none' */
         }
     </style>
 </head>
 <body>
 
     <div id="timer-container">
-        <div id="timer">00:00:00</div>
-        <div class="status-msg" id="status">Video Locked Until New Year</div>
+        <div id="timer">Video Ready</div> 
+        <div class="status-msg" id="status">Video is Now Unlocked</div>
     </div>
 
     <div id="lock-screen">🔒</div>
@@ -88,45 +81,15 @@
     </div>
 
     <script>
-        function updateTimer() {
-            // TARGET: Jan 1, 2026
-            const nextYear = new Date().getFullYear() + 1;
-            const countDownDate = new Date(`Jan 1, ${nextYear} 00:00:00`).getTime();
-            
-            const now = new Date().getTime();
-            const distance = countDownDate - now;
-
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            const timerElement = document.getElementById("timer");
-            const vidBox = document.getElementById("vidBox");
-            const lockScreen = document.getElementById("lock-screen");
-            const status = document.getElementById("status");
-            const video = document.getElementById("myVideo");
-
-            if (distance < 0) {
-                // TIME ENDED: UNLOCK VIDEO
-                clearInterval(interval);
-                timerElement.innerHTML = "UNLOCKED";
-                timerElement.style.color = "#00ff00"; // Green for unlock
-                timerElement.style.textShadow = "0 0 20px #00ff00";
-                
-                status.innerHTML = "Happy New Year! Playing Now...";
-                lockScreen.style.display = "none"; // Hide lock
-                vidBox.style.display = "block";   // Show video
-                
-                video.play().catch(e => console.log("Auto-play blocked, user must click play."));
-            } else {
-                // STILL LOCKED
-                timerElement.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-            }
+        // Optional: Can still use JS to display a message or attempt autoplay (though often blocked)
+        const status = document.getElementById("status");
+        if (status) {
+            status.innerHTML = "Video is Now Unlocked";
         }
-
-        const interval = setInterval(updateTimer, 1000);
-        updateTimer();
+        
+        const video = document.getElementById("myVideo");
+        // Attempt to play immediately (Note: browsers may block this unless muted or user interacts)
+        video.play().catch(e => console.log("Auto-play blocked, user must click play."));
     </script>
 
 </body>
